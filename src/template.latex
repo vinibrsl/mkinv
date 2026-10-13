@@ -1,0 +1,88 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=30mm]{geometry}
+\usepackage{fontspec}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage[hidelinks]{hyperref}
+
+\newcommand{\ul}[1]{\underline{#1}}
+\setmainfont{lmroman10}[
+  Extension=.otf,
+  UprightFont=*-regular,
+  BoldFont=*-bold,
+  ItalicFont=*-italic,
+  BoldItalicFont=*-bolditalic
+]
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\emergencystretch}{3em}
+\setlength{\heavyrulewidth}{0.5pt}
+\setlength{\lightrulewidth}{0.25pt}
+\linespread{1.1}
+\urlstyle{same}
+
+\begin{document}
+
+\begin{minipage}[t]{0.47\textwidth}
+  \vspace{0pt}
+  {\fontsize{24}{30}\selectfont\textbf{INVOICE}}\par
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\textwidth}
+  \vspace{0pt}
+  \raggedleft
+  No.\ $number$\par
+  \vspace{3pt}
+  $date$\par
+\end{minipage}
+
+\vspace{18mm}
+\begin{minipage}[t]{0.47\textwidth}
+  \raggedright
+  \hyphenpenalty=10000
+  \textbf{FROM}\par\vspace{3mm}
+  $sender.name$\par\smallskip
+  $if(sender.registration_number)$$sender.registration_number$\par\smallskip$endif$
+  $sender.address$\par\smallskip
+  $sender.email$\par
+\end{minipage}\hfill
+\begin{minipage}[t]{0.47\textwidth}
+  \raggedright
+  \hyphenpenalty=10000
+  \textbf{BILL TO}\par\vspace{3mm}
+  $client.name$\par\smallskip
+  $if(client.registration_number)$$client.registration_number$\par\smallskip$endif$
+  $client.address$\par\smallskip
+  $client.email$\par
+\end{minipage}
+
+\vspace{14mm}
+\begingroup
+  \renewcommand{\arraystretch}{1.35}
+  \setlength{\tabcolsep}{7pt}
+  \begin{tabularx}{\textwidth}{@{}X r r r@{}}
+    \toprule
+    \textit{Description} & \textit{Quantity} & \textit{Rate} & \textit{Amount ($currency$)} \\
+    \midrule
+$for(items)$
+    $items.name$$if(items.note)$\footnotemark[$items.note_number$]$endif$ & $items.quantity$ & $items.rate$ & $items.amount$ \\
+$endfor$
+    \bottomrule
+    \addlinespace[2mm]
+    Total & & & \textbf{$total$} \\
+  \end{tabularx}
+\endgroup
+
+$for(items)$
+$if(items.note)$
+\footnotetext[$items.note_number$]{$items.note$}
+$endif$
+$endfor$
+
+$if(notes)$
+\vspace{14mm}
+\textbf{PAYMENT INSTRUCTIONS}\par\vspace{3mm}
+{\raggedright $notes$\par}
+$endif$
+
+\end{document}

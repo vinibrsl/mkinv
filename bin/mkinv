@@ -1,0 +1,27 @@
+#!/bin/sh
+set -eu
+
+if [ "$#" -gt 1 ]; then
+    printf '%s\n' 'Usage: mkinv [invoice.yaml|-]' >&2
+    exit 2
+fi
+
+directory=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+
+temporary=$(mktemp -d "${TMPDIR:-/tmp}/mkinv.XXXXXXXX")
+trap 'rm -rf "$temporary"' EXIT
+trap 'exit 1' HUP INT TERM
+
+if [ "$#" -eq 0 ] || [ "$1" = '-' ]; then
+    cat > "$temporary/invoice.yaml"
+else
+    cat -- "$1" > "$temporary/invoice.yaml"
+fi
+
+pandoc --from=markdown+autolink_bare_uris \
+    --metadata-file="$temporary/invoice.yaml" \
+    --lua-filter="$directory/src/filter.lua" \
+    --template="$directory/src/template.latex" \
+    --pdf-engine=xelatex --output="$temporary/invoice.pdf" </dev/null
+
+cat "$temporary/invoice.pdf"

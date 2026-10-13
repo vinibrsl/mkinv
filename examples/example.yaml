@@ -1,0 +1,32 @@
+number: "13912"
+date: "2099-04-01"
+currency: "USD"
+
+sender:
+  name: "Moonbeam Repair Shop"
+  address: "7 Crater Lane, Moon"
+  email: "hello@moonbeam.example"
+  registration_number: "MOON-12345"
+
+client:
+  name: "Saturn's Snack Shuttle"
+  address: "42 Ring Road, Saturn"
+  email: "invoices@snackshuttle.example"
+  registration_number: "SATURN-67890"
+
+items:
+  - name: "Rocket polishing"
+    quantity: "3 hours"
+    rate: 12.50
+    note: "Includes a little extra sparkle."
+  - name: "Snack antenna alignment"
+    quantity: "2 antennas"
+    rate: 5
+  - name: "Rocket launch experiment"
+    quantity: "4 hours"
+    rate: 9
+  - name: "Alien dance break"
+    quantity: "1 hour"
+    rate: 10
+
+notes: "Pay [at the moon kiosk](https://payments.example/moon-001) or wire to Earth to account number 133710381."
